@@ -109,16 +109,24 @@ hasil dari kode diatas dapat dilihat pada data berikut :
 `Total of sample in test dataset: 127`
 - Menerapkan teknik Standarisasi : Proses standarisasi dapat membantu untuk membuat fitur data menjadi bentuk yang lebih mudah diolah oleh algoritma.
 ![standarisasi](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/standarisasi.png)
+- Mengubah variabel target menjadi kategori : Membuat dataset fitur (X) dengan menghapus kolom G3 dari `df_ohe_after_drop_features` dan membuat variabel target (y) dalam bentuk kategori 'pass' atau 'fail' berdasarkan nilai di kolom G3.
+```
+X = df_ohe_after_drop_features.drop('G3',axis = 1)
+y = df_ohe_after_drop_features['G3'].apply(lambda x: 'pass' if x >= 10 else 'fail')
+```
+Kode diatas mempersiapkan data sebelum dimasukkan ke model dengan memisahkan fitur independen (X) dan variabel target (y). Kolom G3 dihapus dari dataset untuk membentuk X, sehingga hanya berisi fitur-fitur yang akan digunakan sebagai input model. Sementara itu, kolom G3 diubah menjadi variabel kategori y yang menggunakan fungsi lambda, di mana nilai G3 diklasifikasikan sebagai 'pass' jika nilainya ≥ 10 dan 'fail' jika kurang dari 10. Proses ini mengubah target dari numerik menjadi kategori, sehingga data siap digunakan untuk algoritma klasifikasi seperti Logistic Regression atau Decision Tree.
 
 ## Modeling
 Pada tahap ini, kita akan mengembangkan model machine learning dengan empat algoritma. Kemudian, kita akan mengevaluasi performa masing-masing algoritma dan menentukan algoritma mana yang memberikan hasil prediksi terbaik. Keempat algoritma yang akan kita gunakan, antara lain:
-- **Regresi logistik** adalah salah satu algortima pembelajaran mesin yang handal digunakan untuk klasifikasi data dengan target bertipe kategori ([Saleh, M., & Chamidy, T., 2024](https://doi.org/10.36040/jati.v8i3.9696))
+
+### 1. Logistic Regression
+Logistic Regression (regresi logistik) adalah salah satu teknik pemodelan statistik yang digunakan untuk memprediksi hasil biner, yaitu hasil dengan dua kemungkinan, seperti "ya" atau "tidak," "sukses" atau "gagal," dan lain sebagainya. Berbeda dengan regresi linear yang digunakan untuk memprediksi nilai numerik, regresi logistik digunakan untuk memodelkan probabilitas bahwa suatu kejadian akan terjadi (hasil biner). regresi logistik merupakan salah satu algortima pembelajaran mesin yang handal digunakan untuk klasifikasi data dengan target bertipe kategori ([Saleh, M., & Chamidy, T., 2024](https://doi.org/10.36040/jati.v8i3.9696))
 ```
 model1 = LogisticRegression(max_iter=200)
 ```
 pada Logistic Regression menggunakan parameter `max_iter=200`. Parameter tersebut digunakan untuk menentukan jumlah iterasi maksimum yang diperbolehkan bagi algoritma pengoptimalan untuk mencapai konvergensi. Nilai 200 digunakan untuk memastikan model memiliki cukup iterasi guna menemukan solusi optimal.
 
-- **Decision Tree Classifier**
+### 2. Decision Tree Classifier
 Decision Tree adalah algoritma machine learning yang sering digunakan dalam tugas klasifikasi dan regresi. Struktur dari algoritma ini mirip dengan bentuk pohon dengan setiap cabang mewakili keputusan atau percabangan dari data berdasarkan fitur-fitur yang ada.
 ```
 model2 = DecisionTreeClassifier()
@@ -127,7 +135,9 @@ Parameter pada model DecisionTreeClassifier menggunakan setingan default, yang b
   - `criterion='gini'`: Model menggunakan Gini Impurity untuk mengukur kualitas split.
   - `splitter='best'`: Model mencari split terbaik pada setiap langkah.
 Parameter lain seperti kedalaman pohon atau jumlah sampel minimum juga menggunakan nilai bawaan yang ditentukan oleh pustaka scikit-learn.
-- K-Nearest Neighbors (KNN) adalah algoritma machine learning yang sederhana dan mudah dipahami untuk klasifikasi dan regresi. Algoritma ini bekerja dengan menemukan k tetangga terdekat dari data baru dan kemudian menggunakan kategori atau nilai rata-rata dari tetangga tersebut untuk memprediksi kategori atau nilai data baru ([Mardiyyah, N.W., Rahaningsih, N. and Ali, I., 2024.](https://doi.org/10.36040/jati.v8i2.9010)).
+
+### 3. K-Nearest Neighbors (KNN) 
+K-Nearest Neighbors (KNN) adalah algoritma machine learning yang sederhana dan mudah dipahami untuk klasifikasi dan regresi. Algoritma ini bekerja dengan menemukan k tetangga terdekat dari data baru dan kemudian menggunakan kategori atau nilai rata-rata dari tetangga tersebut untuk memprediksi kategori atau nilai data baru ([Mardiyyah, N.W., Rahaningsih, N. and Ali, I., 2024.](https://doi.org/10.36040/jati.v8i2.9010)).
 Dalam algoritma KNN, beberapa parameter utama perlu diatur untuk mengoptimalkan performa model. Inilah beberapa di antaranya.
   - Jumlah Tetangga (K)
   - Metric Jarak
@@ -144,7 +154,8 @@ Parameter pada model KNeighborsClassifier juga menggunakan diseting secara defau
   - `metric='minkowski'`: Model menggunakan metrik Minkowski untuk menghitung jarak.
   - `weights='uniform'`: Semua tetangga memiliki bobot yang sama dalam prediksi.
 
-- Random Forest adalah algoritma machine learning ensemble yang menggabungkan beberapa decision tree untuk meningkatkan akurasi prediksi. Algoritma ini bekerja dengan membuat banyak decision tree secara acak dan kemudian menggunakan voting untuk memprediksi kategori atau nilai data baru. ([Husin, N., 2023.](https://pdfs.semanticscholar.org/f048/ea7a08cfca1a0a705eb5fd57efd7ba798fa2.pdf)).
+### 4. Random Forest 
+Random Forest adalah algoritma machine learning ensemble yang menggabungkan beberapa decision tree untuk meningkatkan akurasi prediksi. Algoritma ini bekerja dengan membuat banyak decision tree secara acak dan kemudian menggunakan voting untuk memprediksi kategori atau nilai data baru. ([Husin, N., 2023.](https://pdfs.semanticscholar.org/f048/ea7a08cfca1a0a705eb5fd57efd7ba798fa2.pdf)).
 Dalam algoritma Random Forest, beberapa parameter utama perlu diatur untuk mengoptimalkan performa model. Inilah beberapa di antaranya.
   - n_estimators
   - Maksimal Kedalaman (max_depth)
@@ -163,23 +174,36 @@ keterangan parameter dapat dilihat dibawah ini :
   - `random_state=123`: Menetapkan nilai acak untuk memastikan replikasi hasil, sehingga eksperimen dapat diuji ulang dengan hasil yang konsisten.
   - `n_jobs=-1`: Mengizinkan model untuk menggunakan semua inti prosesor yang tersedia untuk mempercepat pelatihan.
   - `class_weight='balanced'`: Menyesuaikan bobot kelas berdasarkan distribusi data. Parameter ini digunakan untuk menangani ketidakseimbangan data, sehingga kelas minoritas memiliki kontribusi yang lebih signifikan dalam pelatihan.
-  
+
+### Skema Pengujuan
+Dalam proyek ini, dilakukan dua skema pengujian untuk membandingkan hasil kinerja model prediksi berdasarkan fitur yang digunakan dalam proses pelatihan. Kedua skema pengujian tersebut dirancang untuk mengidentifikasi pola dan membangun model klasifikasi berdasarkan nilai akademik siswa (G3), yang dikelompokkan ke dalam kategori pass dan fail. Berikut penjelasan kedua skema:
+1. Pengujian Skema 1
+Pada skema pertama, digunakan dataset hasil proses feature selection dengan membuang fitur-fitur yang memiliki korelasi rendah terhadap target **G3**. Proses ini dilakukan untuk memfokuskan model hanya pada fitur-fitur yang relevan. Fitur independen **(X)** diambil dari dataset yang telah diolah (`df_ohe_after_drop_features`) dengan menghapus kolom **G3**. Variabel target **(y)** kemudian diubah menjadi kategori pass dan fail menggunakan aturan berikut: **nilai G3 ≥ 10** dianggap ***pass***, sedangkan **nilai < 10** dianggap ***fail***. Dataset pada skema ini memanfaatkan fitur-fitur yang memiliki korelasi tinggi dengan nilai **G3**, sehingga lebih terfokus pada fitur yang dianggap relevan. Hal ini bertujuan untuk meningkatkan efisiensi model dengan mengurangi dimensi data tanpa kehilangan informasi penting.
+
+2. Pengujian Skema 2
+Pada skema kedua, dataset yang digunakan adalah dataset awal sebelum dilakukan feature selection (df_ohe). Fitur independen (`X_all_features_except_G3`) mencakup semua kolom kecuali **G3**, sehingga lebih banyak atribut yang dimasukkan ke dalam model. Variabel target **(y_G3)** juga diubah menjadi kategori pass dan fail menggunakan aturan yang sama seperti pada skema pertama. Pada skema ini, semua fitur yang tersedia digunakan untuk pelatihan model tanpa mempertimbangkan relevansinya terhadap nilai **G3**. Pendekatan ini bertujuan untuk mengevaluasi pengaruh fitur-fitur tambahan terhadap performa model dan membandingkannya dengan hasil pada skema pertama.
+
+Melalui dua skema pengujian ini, akan dievaluasi apakah penggunaan seleksi fitur dapat meningkatkan performa model, atau justru sebaliknya. Perbandingan hasil pengujian pada kedua skema juga memberikan gambaran lebih jelas tentang pengaruh jumlah fitur terhadap akurasi dan kemampuan generalisasi model dalam memprediksi performa siswa.
 ## Evaluasi
 Pada bagian ini, evaluasi dilakukan untuk mengukur performa model yang telah dibangun menggunakan metrik evaluasi seperti akurasi dan *F1-score*. 
-- **Confusion matrix atau matriks kebingungan** adalah alat yang digunakan untuk menggambarkan kinerja model klasifikasi pada data uji yang sudah diketahui hasil sebenarnya. Matriks kebingungan digunakan untuk menganalisis kinerja model klasifikasi dengan membandingkan hasil prediksi model terhadap data aktual. Matriks ini memberikan gambaran mengenai prediksi benar (true positive dan true negative) serta kesalahan prediksi (false positive dan false negative) dari setiap model.
+### Confusion matrix
+Confusion matrix atau matriks kebingungan adalah alat yang digunakan untuk menggambarkan kinerja model klasifikasi pada data uji yang sudah diketahui hasil sebenarnya. Matriks kebingungan digunakan untuk menganalisis kinerja model klasifikasi dengan membandingkan hasil prediksi model terhadap data aktual. Matriks ini memberikan gambaran mengenai prediksi benar (true positive dan true negative) serta kesalahan prediksi (false positive dan false negative) dari setiap model.
 ![confusion matrix](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/confusion-matrix.png)
 Untuk melihat hasil pelatihan dari masing-masing model klasifikasi dengan menggunakan akurasi pada nilai yang dihasilkan pada setiap model, nilai akurasi menggunakan library dari sklearn. Selainmelihat nilai akurasi pada proyek ini melakukan visualisasi hasil pelatihan dengan confusion matrix. Berikut merupakan hasil akurasi pada setiap model:
-- **Evaluasi Hasil Model - Pengujuan 1**
-Berikut adalah hasil akurasi dan matriks kebingungan dari pengujian pertama menggunakan keempat algoritma:
+### Hasil Model - Pengujuan 1
+Pada pengujian pertama, model dievaluasi dengan menggunakan dataset hasil seleksi fitur. Hasil akurasi dan F1-score dari keempat algoritma yang diuji dapat dilihat pada tabel berikut:
   - **Akurasi dan F1-Score - Pengujian 1**
-![](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/hasil-pengujian-1.png)
+    ![](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/hasil-pengujian-1.png)
   - **Matriks Kebingungan - Pengujian 1**
 ![](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/confusion-matrix-1.png)
-- **Evaluasi Hasil Model - Pengujuan 2**
-Hasil pengujian kedua menunjukkan performa algoritma yang serupa dengan pengujian pertama:
+
+> Hasil menunjukkan bahwa algoritma Random Forest memberikan akurasi tertinggi dibandingkan algoritma lainnya, sementara Logistic Regression memberikan hasil yang lebih mudah diinterpretasikan meskipun akurasinya sedikit lebih rendah.
+
+## Hasil Model - Pengujuan 2
+Pada pengujian kedua, model diuji menggunakan dataset tanpa seleksi fitur. Hasil evaluasinya adalah sebagai berikut:
   - **Akurasi dan F1-Score - Pengujian 2**
 ![](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/hasil-pengujian-2.png)
-  - **Matriks Kebingungan - Pengujian 1**
+  - **Matriks Kebingungan - Pengujian 2**
 ![](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/confusion-matrix-2.png)
 
 Dari hasil evaluasi dapat diidentifikasi sebagai berikut :
