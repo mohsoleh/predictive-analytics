@@ -220,6 +220,36 @@ Keempat algoritma yang digunakan berhasil memberikan prediksi dengan tingkat kea
 Model dengan akurasi tinggi belum tentu optimal tanpa mempertimbangkan aspek F1-Score, terutama jika terdapat ketidakseimbangan kelas dalam data. Oleh karena itu, evaluasi lebih lanjut pada data baru diperlukan untuk memastikan bahwa solusi ini dapat diimplementasikan secara konsisten dalam konteks nyata.
 
 Secara keseluruhan, evaluasi model menunjukkan hasil yang positif dalam menjawab problem statements dan mendukung pencapaian goals penelitian. Model yang dibangun tidak hanya mampu memprediksi nilai siswa dengan akurat, tetapi juga memberikan wawasan penting yang dapat digunakan untuk meningkatkan kualitas sistem pendidikan. Selanjutnya, model ini memiliki potensi untuk diimplementasikan sebagai alat bantu dalam sistem pendidikan berbasis data.
+
+## Hasil Analisis
+Berikut ini merupakan tabel perbandingan dari hasil Test dan Training Accuracy pada kedua pengujian diatas :
+![perbandingan_pengujian](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/perbandingan_pengujian.png)
+### LogisticRegression:
+Pengujian 1 menunjukkan akurasi uji yang sedikit lebih tinggi (90.55%) dibandingkan Pengujian 2 (88.98%). Namun, akurasi pelatihannya lebih rendah (94.48% vs. 96.65%).
+Indikasi: Logistic Regression pada Pengujian 1 lebih stabil, dengan performa yang baik pada data uji dan pelatihan.
+
+### DecisionTreeClassifier:
+Akurasi uji lebih baik pada Pengujian 2 (91.33%) dibanding Pengujian 1 (88.98%).
+Akurasi pelatihan tetap sempurna (100%) di kedua pengujian, mengindikasikan overfitting.
+Indikasi: Model terlalu mempelajari data pelatihan sehingga sulit untuk generalisasi.
+
+### KNeighborsClassifier:
+Akurasi uji sama pada kedua pengujian (88.19%), tetapi akurasi pelatihan lebih tinggi pada Pengujian 1 (94.48%) dibanding Pengujian 2 (92.89%).
+Indikasi: Performanya konsisten pada data uji, meskipun terdapat sedikit perbedaan dalam akurasi pelatihan.
+
+### RandomForestClassifier:
+Akurasi uji lebih baik pada Pengujian 1 (89.76%) dibandingkan Pengujian 2 (88.98%).
+Akurasi pelatihan tetap sempurna (100%), menunjukkan adanya overfitting seperti pada Decision Tree.
+
+Untuk bisa melihat lebih jelas perbandingan pengujuian dapat dilihat pada grafik berikut:
+![test](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/test_akurasi_compire.png)
+![train](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/train_akurasi_compire.png)
+
+## Kesimpulan
+Hasil pengujian menunjukkan bahwa Logistic Regression memiliki performa paling stabil dalam kedua pengujian. Pada Pengujian 1, akurasi uji mencapai 90.55% dan akurasi pelatihan 94.48%, sedikit lebih baik dibandingkan Pengujian 2 dengan akurasi uji 88.98% dan akurasi pelatihan 96.65%. Hal ini menjadikan Logistic Regression sebagai model yang paling andal untuk generalisasi. Decision Tree dan Random Forest, meskipun memiliki akurasi uji yang cukup baik, menunjukkan indikasi overfitting karena akurasi pelatihannya selalu sempurna (100%) di kedua pengujian. Decision Tree mencatat peningkatan akurasi uji dari 88.98% pada Pengujian 1 menjadi 91.33% pada Pengujian 2, sementara Random Forest menunjukkan akurasi uji yang lebih baik pada Pengujian 1 (89.76%) dibandingkan Pengujian 2 (88.98%). KNeighborsClassifier memiliki akurasi uji yang konsisten pada kedua pengujian (88.19%), tetapi akurasi pelatihannya lebih tinggi pada Pengujian 1 (94.48%) dibandingkan Pengujian 2 (92.89%).
+
+Secara umum, Pengujian 1 menghasilkan performa yang lebih baik pada data uji, terutama untuk Logistic Regression dan Random Forest. Logistic Regression terbukti menjadi model yang paling seimbang dalam hal akurasi uji dan pelatihan, tanpa menunjukkan tanda-tanda overfitting yang signifikan. Sebaliknya, Decision Tree dan Random Forest memerlukan penyesuaian parameter seperti max_depth atau min_samples_split untuk mengurangi overfitting dan meningkatkan generalisasi. Sementara itu, perbedaan performa antara kedua pengujian dapat mengindikasikan bahwa data tambahan pada Pengujian 2 tidak memberikan informasi yang cukup signifikan untuk meningkatkan kinerja model secara keseluruhan.
+
 ## Referensi
 - BRITO, A. ; TEIXEIRA, J., eds. lit. – “Proceedings of 5th Annual Future Business Technology Conference, Porto, 2008”. [S.l. : EUROSIS, 2008]. ISBN 978-9077381-39-7. p. 5-12.
 - Saleh, M. and Chamidy, T., 2024. ANALISIS FAKTOR-FAKTOR YANG MEMPENGARUHI TINGKAT KEPUASAN SISWA MTS SURYA BUANA MENGGUNAKAN METODE REGRESI LOGISTIK. JATI (Jurnal Mahasiswa Teknik Informatika), 8(3), pp.3463-3470.
