@@ -101,14 +101,11 @@ Pada proses ini, data dipisahkan menjadi dua bagian utama, yaitu X dan y. X meru
 ```
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=42)
 ```
-Kode ini membagi dataset menjadi dua bagian, yaitu 80% data latih dan 20% data uji, dengan data diacak terlebih dahulu. Hal ini dilakukan agar model dapat dilatih pada data yang representatif dan diuji pada data yang belum pernah dilihat, sehingga memberikan evaluasi performa yang lebih akurat.
-
-hasil dari kode diatas dapat dilihat pada data berikut : 
+Kode ini membagi dataset menjadi dua bagian, yaitu 80% data latih dan 20% data uji, dengan data diacak terlebih dahulu. Hal ini dilakukan agar model dapat dilatih pada data yang representatif dan diuji pada data yang belum pernah dilihat, sehingga memberikan evaluasi performa yang lebih akurat. Hasil dari kode diatas dapat dilihat pada data berikut : 
 `Total of sample in whole dataset: 634`
 `Total of sample in train dataset: 507`
 `Total of sample in test dataset: 127`
-- Menerapkan teknik Standarisasi : Proses standarisasi dapat membantu untuk membuat fitur data menjadi bentuk yang lebih mudah diolah oleh algoritma.
-![standarisasi](https://raw.githubusercontent.com/mohsoleh/predictive-analytics/refs/heads/main/img/standarisasi.png)
+
 - Mengubah variabel target menjadi kategori : Membuat dataset fitur (X) dengan menghapus kolom G3 dari `df_ohe_after_drop_features` dan membuat variabel target (y) dalam bentuk kategori 'pass' atau 'fail' berdasarkan nilai di kolom G3.
 ```
 X = df_ohe_after_drop_features.drop('G3',axis = 1)
